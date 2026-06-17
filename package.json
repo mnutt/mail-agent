@@ -1,0 +1,24 @@
+{
+  "name": "mail-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run check --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present",
+    "dev:llm": "npm run build --workspace @mail-agent/llm && spk dev -p apps/llm/sandstorm-pkgdef.capnp:pkgdef",
+    "dev:mail-classifier": "npm run build --workspace @mail-agent/mail-classifier && spk dev -p apps/mail-classifier/sandstorm-pkgdef.capnp:pkgdef",
+    "dev:messages": "npm run build --workspace @mail-agent/messages && spk dev -p apps/messages/sandstorm-pkgdef.capnp:pkgdef",
+    "dev:dummy-email-producer": "npm run build --workspace @mail-agent/dummy-email-producer && spk dev -p apps/dummy-email-producer/sandstorm-pkgdef.capnp:pkgdef",
+    "dev:mobile-notifications": "npm run build --workspace @mail-agent/mobile-notifications && spk dev -p apps/mobile-notifications/sandstorm-pkgdef.capnp:pkgdef"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "typescript": "^5.8.0"
+  }
+}

@@ -1,0 +1,5 @@
+.codex/skills/sandstorm-app-author/
+.claude/skills/sandstorm-app-author/
+node_modules/
+dist/
+*.spk

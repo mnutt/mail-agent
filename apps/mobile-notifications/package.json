@@ -1,0 +1,15 @@
+{
+  "name": "@mail-agent/mobile-notifications",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../../scripts/build-isolate.mjs src/worker.ts dist/worker.js",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "npm run build && spk dev -p sandstorm-pkgdef.capnp:pkgdef"
+  },
+  "dependencies": {
+    "@mail-agent/protocol": "0.1.0"
+  }
+}
