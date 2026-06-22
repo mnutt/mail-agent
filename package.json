@@ -11,6 +11,7 @@
     "build": "npm run build --workspaces --if-present",
     "check": "npm run check --workspaces --if-present",
     "clean": "npm run clean --workspaces --if-present",
+    "dev:all": "node scripts/dev-all.mjs",
     "dev:llm": "npm run build --workspace @mail-agent/llm && spk dev -p apps/llm/sandstorm-pkgdef.capnp:pkgdef",
     "dev:mail-classifier": "npm run build --workspace @mail-agent/mail-classifier && spk dev -p apps/mail-classifier/sandstorm-pkgdef.capnp:pkgdef",
     "dev:messages": "npm run build --workspace @mail-agent/messages && spk dev -p apps/messages/sandstorm-pkgdef.capnp:pkgdef",

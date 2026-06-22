@@ -84,7 +84,7 @@ export interface SubscriptionHandle {
 }
 
 export interface MailFeed {
-  addReceiver(receiverToken: string, request: SubscriptionRequest): Promise<SubscriptionHandle>;
+  addReceiver(receiver: unknown, request: SubscriptionRequest): Promise<SubscriptionHandle>;
 }
 
 export interface SenderInstruction {

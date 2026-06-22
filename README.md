@@ -29,6 +29,14 @@ Each app builds to `dist/worker.js`, which is referenced by that app's
 
 ## Run an isolate grain
 
+Start every app's `spk dev` process at once:
+
+```sh
+npm run dev:all
+```
+
+Or start a single app:
+
 ```sh
 npm run dev:llm
 npm run dev:messages
@@ -42,24 +50,14 @@ do not require a Sandstorm app VM.
 
 ## Outbound HTTP
 
-OpenAI, APNs, and FCM authority is requested through Sandstorm's browser-first
-outbound HTTP Powerbox helper:
+OpenAI, APNs, and FCM authority is requested through Sandstorm's generated
+Powerbox grant UI:
 
-```js
-import { requestOutboundHttpPowerbox } from "./rpc-client.js";
-
-const requested = await requestOutboundHttpPowerbox({
-  baseUrl: "https://api.openai.com/",
-  methods: ["GET", "POST"],
-});
-
-await fetch("/api/openai/claim", {
-  method: "POST",
-  headers: { "content-type": "application/json" },
-  body: JSON.stringify(requested),
-});
+```html
+<script type="module" src="/__sandstorm/powerbox-grants/client.js"></script>
+<sandstorm-powerbox-grant grant="openai"></sandstorm-powerbox-grant>
 ```
 
-The worker route claims and stores the returned request token with
-`api.powerbox().claimAndStoreRequest()`. The provider-call code is
-intentionally localized to the LLM and mobile notification workers.
+The worker defines grants with `api.powerboxGrants(...)`, serves the generated
+routes with `grants.serve(request)`, and uses the saved token from isolate
+storage when sending provider calls.

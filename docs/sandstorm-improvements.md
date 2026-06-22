@@ -19,7 +19,8 @@ Resolution:
   Powerbox picker itself.
 - The documented isolate author model is browser-first: browser code uses the
   `/rpc-client.js` `postMessage` helpers, then passes the returned token or
-  claimed handle to the worker for `claimRequest()` / `claimAndStoreRequest()`.
+  claimed handle to the worker for `api.powerbox().claim()`, `cap.save()`, and
+  app-owned token storage.
 - This avoids exposing `SessionContext.request()` as new platform surface until
   Sandstorm has a clear story for worker-initiated, user-mediated UI.
 
@@ -27,8 +28,8 @@ Resolution:
 
 Status: resolved by early rejection and documented saved-token pattern
 
-Passing a `ClaimedCapability` as an argument to another grain's app-defined RPC
-method appears to serialize only the local claimed-capability ID. The receiving
+Passing a live `Capability` as an argument to another grain's app-defined RPC
+method appeared to serialize only the local capability ID. The receiving
 grain then hydrates that ID against its own supervisor, and subsequent operations
 such as `save()` fail with `unknown claimed capability`.
 
@@ -43,14 +44,14 @@ Repro shape:
 
 Resolution:
 
-- Direct live `ClaimedCapability` and raw `RpcTarget` callback arguments are
+- Direct live `Capability` and raw `RpcTarget` callback arguments are
   now rejected at serialization time for remote app-defined RPC calls, before
   a useless local handle ID is sent to the receiver.
 - Local object-capability calls still support live callback/capability
   arguments inside the same isolate supervisor.
-- The isolate docs now state the cross-grain pattern: export a persistent
-  object capability, save it, pass the saved token string or `SavedCapability`,
-  and have the receiver restore it before calling back.
+- The isolate docs now state the cross-grain pattern: export a durable object
+  capability, pass the saved token string, and have the receiver restore it
+  before calling back.
 
 Current app workaround:
 
